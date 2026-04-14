@@ -68,6 +68,12 @@ html {
 body {
   font-family: var(--font-main);
   background: var(--bg);
+  background-image:
+    linear-gradient(rgba(132,94,247,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(132,94,247,0.12) 1px, transparent 1px),
+    linear-gradient(rgba(132,94,247,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(132,94,247,0.04) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -112,7 +118,7 @@ button {
   padding: 16px 40px;
   border-radius: var(--radius-pill);
   font-family: var(--font-main);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.02em;
   transition: all 0.22s ease;
@@ -154,11 +160,11 @@ button {
 }
 
 .section-dark {
-  background: var(--bg);
+  background: transparent;
 }
 
 .section-surface {
-  background: var(--bg-surface);
+  background: rgba(248,249,250,0.5);
 }
 
 .section-header {
@@ -167,7 +173,7 @@ button {
 }
 
 .section-eyebrow {
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -289,7 +295,7 @@ button {
 }
 
 .nav-logo-name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text);
   letter-spacing: 0.02em;
@@ -303,7 +309,7 @@ button {
 
 .nav-link {
   padding: 8px 14px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--text-secondary);
   border-radius: var(--radius-sm);
@@ -316,7 +322,7 @@ button {
 
 .nav-cta {
   padding: 8px 20px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   background: var(--grad);
   color: #ffffff;
@@ -413,7 +419,7 @@ button {
 
 .hero-eyebrow {
   display: inline-block;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -461,7 +467,7 @@ button {
 
 .hero-note {
   margin-top: 22px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--text-dim);
   letter-spacing: 0.05em;
 }
@@ -500,7 +506,8 @@ button {
 
 .pain-card {
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255,107,107,0.15);
+  border-left: 3px solid var(--coral);
   border-radius: var(--radius);
   padding: 32px 28px;
   display: flex;
@@ -516,8 +523,8 @@ button {
 }
 
 .pain-icon {
-  width: 52px;
-  height: 52px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-sm);
   background: var(--coral-dim);
   display: flex;
@@ -563,7 +570,7 @@ button {
   background: var(--coral-dim);
   border: 1px solid rgba(255,107,107,0.18);
   border-radius: var(--radius-pill);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--coral);
   letter-spacing: 0.04em;
@@ -572,19 +579,22 @@ button {
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  align-items: start;
+  align-items: stretch;
+  padding-top: 20px;
 }
 
 .pricing-card {
   background: var(--bg-card);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 36px 32px;
+  padding: 36px 28px;
   position: relative;
   transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
   box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
 }
 .pricing-card:hover {
   border-color: var(--border-strong);
@@ -607,7 +617,7 @@ button {
   left: 28px;
   background: var(--grad);
   color: #fff;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -628,7 +638,7 @@ button {
 }
 
 .pricing-plan-desc {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-secondary);
   font-weight: 400;
   line-height: 1.6;
@@ -643,12 +653,13 @@ button {
 .pricing-monitor {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
 .pricing-monitor-label {
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--coral);
   letter-spacing: 0.06em;
@@ -662,7 +673,7 @@ button {
 
 .pricing-price {
   font-family: var(--font-mono);
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   font-weight: 500;
   color: var(--text);
   letter-spacing: -0.03em;
@@ -670,7 +681,7 @@ button {
 }
 
 .pricing-currency {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 400;
   color: var(--text-secondary);
 }
@@ -682,16 +693,17 @@ button {
 }
 
 .pricing-regular-label {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--text-dim);
 }
 
 .pricing-regular-price {
   font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--text-dim);
+  font-size: 16px;
+  color: var(--coral);
   text-decoration: line-through;
-  text-decoration-color: var(--border-strong);
+  text-decoration-color: var(--coral);
+  text-decoration-thickness: 2px;
 }
 
 .pricing-features {
@@ -699,13 +711,14 @@ button {
   flex-direction: column;
   gap: 14px;
   margin-bottom: 32px;
+  flex: 1;
 }
 
 .pricing-feature {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   color: var(--text-secondary);
   line-height: 1.5;
@@ -740,7 +753,7 @@ button {
 
 .step-number span {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--violet);
   letter-spacing: 0.08em;
@@ -784,7 +797,7 @@ button {
 }
 
 .step-desc {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   color: var(--text-secondary);
   line-height: 1.85;
@@ -839,7 +852,7 @@ button {
 }
 
 .profile-role {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--violet);
   letter-spacing: 0.04em;
@@ -847,7 +860,7 @@ button {
 }
 
 .profile-bio {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   color: var(--text-secondary);
   line-height: 1.85;
@@ -858,7 +871,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--text-secondary);
   border: 1.5px solid var(--border);
@@ -889,7 +902,7 @@ button {
 }
 
 .form-label {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text);
 }
@@ -941,7 +954,7 @@ button {
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text);
   padding: 10px 14px;
   border: 1.5px solid var(--border);
@@ -1106,13 +1119,13 @@ button {
 }
 
 .footer-copy {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-dim);
   font-weight: 400;
 }
 
 .footer-threads {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-secondary);
   font-weight: 500;
   transition: color 0.2s;
@@ -1152,7 +1165,7 @@ button {
     width: 100%;
     display: block;
     text-align: left;
-    font-size: 15px;
+    font-size: 16px;
   }
   .nav-cta {
     margin-top: 8px;
