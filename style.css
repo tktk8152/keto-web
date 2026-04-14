@@ -310,26 +310,11 @@ button {
   flex-shrink: 0;
 }
 
-.nav-logo-mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: var(--grad);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-main);
-  font-size: 17px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0;
-}
-
-.nav-logo-name {
-  font-size: 16px;
+.nav-logo-text {
+  font-size: 20px;
   font-weight: 700;
   color: var(--text);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.12em;
 }
 
 .nav-links {
@@ -553,15 +538,12 @@ button {
   box-shadow: var(--shadow-hover);
 }
 
-.pain-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: var(--coral-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255,107,107,0.12);
+.pain-number {
+  font-family: var(--font-mono);
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: rgba(255,107,107,0.2);
+  line-height: 1;
 }
 
 .pain-text {
