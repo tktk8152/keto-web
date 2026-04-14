@@ -1,0 +1,333 @@
+/* ===========================
+   haru cafe - Light Plan Sample
+   =========================== */
+
+/* --- リセット・ベース --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-bg:       #ffffff;
+  --color-fv-bg:    #f5f0e8;
+  --color-section:  #faf8f4;
+  --color-menu-bg:  #f5f0e8;
+  --color-border:   #e0d9ce;
+  --color-text:     #3a3028;
+  --color-sub:      #7a6e62;
+  --color-accent:   #8b6f4e;
+  --color-link:     #8b6f4e;
+  --color-footer:   #3a3028;
+
+  --font-main: 'Noto Sans JP', sans-serif;
+  --radius: 8px;
+  --container: 720px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* --- ヘッダー --- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-name {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.site-nav ul {
+  display: flex;
+  gap: 32px;
+}
+
+.site-nav a {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--color-sub);
+}
+
+.site-nav a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+/* --- ファーストビュー --- */
+.fv {
+  background-color: var(--color-fv-bg);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.fv-inner {
+  max-width: var(--container);
+  width: 100%;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.fv-sub {
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  margin-bottom: 20px;
+  text-transform: lowercase;
+}
+
+.fv-catch {
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  margin-bottom: 32px;
+}
+
+.fv-open {
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--color-sub);
+  padding-top: 28px;
+  border-top: 1px solid var(--color-border);
+  display: inline-block;
+}
+
+/* --- 共通セクション --- */
+.section {
+  padding: 80px 0;
+}
+
+.section:nth-child(even) {
+  background-color: var(--color-section);
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 36px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* --- コンセプト --- */
+.concept-text {
+  font-size: 16px;
+  line-height: 2;
+  color: var(--color-text);
+}
+
+/* --- メニュー --- */
+.menu {
+  background-color: var(--color-bg);
+}
+
+.menu-block {
+  margin-bottom: 48px;
+}
+
+.menu-block:last-of-type {
+  margin-bottom: 32px;
+}
+
+.menu-category {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-sub);
+  margin-bottom: 16px;
+}
+
+.menu-list {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-name {
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.menu-price {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-note {
+  font-size: 13px;
+  color: var(--color-sub);
+  margin-top: 8px;
+}
+
+/* --- アクセス --- */
+.access {
+  background-color: var(--color-section);
+}
+
+.access-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.access-row {
+  display: flex;
+  align-items: baseline;
+  padding: 16px 20px;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.access-row:last-child {
+  border-bottom: none;
+}
+
+.access-row dt {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-sub);
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.access-row dd {
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.access-row dd a {
+  color: var(--color-text);
+}
+
+.access-row dd a:hover {
+  color: var(--color-accent);
+}
+
+/* --- フッター --- */
+.site-footer {
+  background-color: var(--color-footer);
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* --- レスポンシブ --- */
+@media (max-width: 768px) {
+  .fv {
+    min-height: 60vh;
+  }
+
+  .fv-inner {
+    padding: 64px 20px;
+  }
+
+  .fv-catch {
+    font-size: 26px;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .header-inner {
+    padding: 0 20px;
+  }
+
+  .site-nav ul {
+    gap: 20px;
+  }
+
+  .access-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .access-row dt {
+    width: auto;
+  }
+
+  .br-pc {
+    display: none;
+  }
+}
