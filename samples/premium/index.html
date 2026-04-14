@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS株式会社 — テクノロジーで、未来をつなぐ。</title>
+  <meta name="description" content="NEXUS株式会社は、DX推進支援・業務システム開発・クラウドインフラ構築を通じて、企業のデジタル変革を支援します。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header" id="header" role="banner">
+  <div class="header__inner">
+    <a href="index.html" class="header__logo" aria-label="NEXUS株式会社 トップページ">
+      NEXUS<span class="header__logo-dot"></span>
+    </a>
+    <nav class="header__nav" aria-label="メインナビゲーション">
+      <a href="index.html" class="active">Top</a>
+      <a href="about.html">会社概要</a>
+      <a href="service.html">サービス</a>
+      <a href="works.html">実績</a>
+      <a href="recruit.html">採用</a>
+    </nav>
+    <div class="header__cta">
+      <a href="contact.html" class="btn btn--primary">
+        お問い合わせ
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── Mobile Menu ── -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="ナビゲーションメニュー">
+  <a href="index.html">Top</a>
+  <a href="about.html">会社概要</a>
+  <a href="service.html">サービス</a>
+  <a href="works.html">実績</a>
+  <a href="recruit.html">採用</a>
+  <a href="contact.html">お問い合わせ</a>
+</div>
+
+<!-- ── Hero ── -->
+<section class="hero" aria-label="メインビジュアル">
+  <div class="hero__geo" aria-hidden="true">
+    <div class="hero__geo-ring"></div>
+    <div class="hero__geo-ring"></div>
+    <div class="hero__geo-ring"></div>
+    <div class="hero__geo-dot"></div>
+    <div class="hero__geo-dot"></div>
+    <div class="hero__geo-dot"></div>
+    <div class="hero__geo-line"></div>
+    <div class="hero__geo-line"></div>
+  </div>
+  <div class="hero__grid-bg" aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <div class="hero__content">
+    <p class="hero__eyebrow">NEXUS Inc. — Since 2019</p>
+    <h1 class="hero__title en">
+      Connect<br>
+      <span class="accent">Future</span><br>
+      <span class="jp">テクノロジーで、未来をつなぐ。</span>
+    </h1>
+    <p class="hero__desc">
+      DX推進から業務システム開発、クラウドインフラ構築まで。<br>
+      企業の可能性を最大化するテクノロジーパートナー。
+    </p>
+    <div class="hero__actions">
+      <a href="service.html" class="btn btn--primary">
+        サービスを見る
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+      </a>
+      <a href="works.html" class="btn btn--outline">実績・事例</a>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <div class="hero__scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ── Services Overview ── -->
+<section class="section" aria-labelledby="services-heading">
+  <div class="container">
+    <p class="section-label">Our Services</p>
+    <h2 class="section-title" id="services-heading">
+      3つの事業領域で<br>
+      デジタル変革を支援
+    </h2>
+    <p class="section-sub">
+      テクノロジーと人の力を掛け合わせ、クライアント企業の課題を根本から解決します。
+    </p>
+
+    <div class="services-grid">
+      <article class="service-card fade-in" aria-label="DX推進支援">
+        <div class="service-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="3" width="10" height="10" rx="2"/>
+            <rect x="15" y="3" width="10" height="10" rx="2"/>
+            <rect x="3" y="15" width="10" height="10" rx="2"/>
+            <path d="M15 20h10M20 15v10"/>
+          </svg>
+        </div>
+        <p class="service-card__num">Service 01</p>
+        <h3>DX推進支援</h3>
+        <p>現状分析からロードマップ策定、実装まで一気通貫で支援。業務プロセスのデジタル化で企業競争力を向上します。</p>
+      </article>
+
+      <article class="service-card fade-in fade-in-delay-1" aria-label="業務システム開発">
+        <div class="service-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="6,10 2,14 6,18"/>
+            <polyline points="22,10 26,14 22,18"/>
+            <line x1="16" y1="4" x2="12" y2="24"/>
+          </svg>
+        </div>
+        <p class="service-card__num">Service 02</p>
+        <h3>業務システム開発</h3>
+        <p>要件定義から保守運用まで、オーダーメイドのシステムを提供。スケーラブルな設計で将来の拡張にも対応します。</p>
+      </article>
+
+      <article class="service-card fade-in fade-in-delay-2" aria-label="クラウドインフラ構築">
+        <div class="service-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M22 17.5a5 5 0 0 0-4.5-6.9 7 7 0 1 0-10 7.4"/>
+            <polyline points="14,17 14,23 17,20"/>
+            <polyline points="14,23 11,20"/>
+          </svg>
+        </div>
+        <p class="service-card__num">Service 03</p>
+        <h3>クラウドインフラ構築</h3>
+        <p>AWS・Azure・GCPを活用したクラウド移行・最適化。セキュリティとコスト効率を両立したインフラを設計します。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats ── -->
+<section class="stats-section" aria-label="会社の数字">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <div class="stat-num en">2019<span class="stat-unit">年</span></div>
+        <p class="stat-label">設立年</p>
+      </div>
+      <div class="stat-item fade-in fade-in-delay-1">
+        <div class="stat-num en">42<span class="stat-unit">名</span></div>
+        <p class="stat-label">従業員数</p>
+      </div>
+      <div class="stat-item fade-in fade-in-delay-2">
+        <div class="stat-num en">180<span class="stat-unit">+</span></div>
+        <p class="stat-label">累計プロジェクト数</p>
+      </div>
+      <div class="stat-item fade-in fade-in-delay-3">
+        <div class="stat-num en">98<span class="stat-unit">%</span></div>
+        <p class="stat-label">顧客満足度</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Works Preview ── -->
+<section class="section section--gray" aria-labelledby="works-heading">
+  <div class="container">
+    <p class="section-label">Works</p>
+    <h2 class="section-title" id="works-heading">最新の実績・事例</h2>
+    <p class="section-sub">
+      さまざまな業種・規模のクライアント企業とともに、革新的なソリューションを実現してきました。
+    </p>
+
+    <div class="works-grid">
+      <article class="work-card fade-in">
+        <div class="work-card__visual" style="background: linear-gradient(135deg, #0f2040 0%, #1d4ed8 100%);">
+          <div class="work-card__visual-inner" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5">
+              <rect x="8" y="8" width="20" height="20" rx="3"/>
+              <rect x="36" y="8" width="20" height="20" rx="3"/>
+              <rect x="8" y="36" width="20" height="20" rx="3"/>
+              <rect x="36" y="36" width="20" height="20" rx="3"/>
+            </svg>
+          </div>
+          <span class="work-card__tag">製造業 / DX</span>
+        </div>
+        <div class="work-card__body">
+          <h3>大手製造業の全社DX推進プロジェクト</h3>
+          <p>5,000名規模の製造業企業における業務プロセスの全面デジタル化。生産効率を40%向上させました。</p>
+          <div class="work-card__arrow">
+            詳しく見る
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card fade-in fade-in-delay-1">
+        <div class="work-card__visual" style="background: linear-gradient(135deg, #1a3560 0%, #0369a1 100%);">
+          <div class="work-card__visual-inner" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5">
+              <ellipse cx="32" cy="24" rx="18" ry="12"/>
+              <path d="M14 24v16c0 6.6 8 12 18 12s18-5.4 18-12V24"/>
+            </svg>
+          </div>
+          <span class="work-card__tag">金融 / システム</span>
+        </div>
+        <div class="work-card__body">
+          <h3>地方銀行向け次世代勘定系システム構築</h3>
+          <p>レガシーシステムからの移行を含む次世代勘定系システムの開発。処理速度を従来比3倍に改善しました。</p>
+          <div class="work-card__arrow">
+            詳しく見る
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card fade-in fade-in-delay-2">
+        <div class="work-card__visual" style="background: linear-gradient(135deg, #0a1628 0%, #1e40af 100%);">
+          <div class="work-card__visual-inner" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5">
+              <path d="M48 28a14 14 0 0 0-12-16 20 20 0 1 0-28 21"/>
+              <polyline points="32,36 32,52 40,44"/>
+              <polyline points="32,52 24,44"/>
+            </svg>
+          </div>
+          <span class="work-card__tag">物流 / クラウド</span>
+        </div>
+        <div class="work-card__body">
+          <h3>物流企業のクラウドネイティブ化対応</h3>
+          <p>オンプレミス環境からAWSへの全面移行。運用コストを35%削減し、システム可用性99.99%を達成しました。</p>
+          <div class="work-card__arrow">
+            詳しく見る
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div style="text-align:center; margin-top:48px;">
+      <a href="works.html" class="btn btn--outline-blue">
+        実績一覧を見る
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section" aria-label="お問い合わせ">
+  <div class="container">
+    <div class="cta-section__inner fade-in">
+      <p class="section-label" style="justify-content:center; color:rgba(255,255,255,.5);">
+        Contact Us
+      </p>
+      <h2>お気軽にご相談ください</h2>
+      <p>DX推進・システム開発・クラウド移行、<br>あらゆる課題にNEXUSがお応えします。</p>
+      <div class="cta-actions">
+        <a href="contact.html" class="btn btn--primary">
+          無料相談を申し込む
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+        </a>
+        <a href="service.html" class="btn btn--outline">サービス詳細を見る</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo">
+          NEXUS<span class="header__logo-dot"></span>
+        </div>
+        <p class="footer__desc">
+          テクノロジーの力で企業の可能性を最大化する。<br>
+          DX推進から業務システム開発、クラウドインフラ構築まで、ワンストップで支援します。
+        </p>
+        <address class="footer__address">
+          〒107-0062 東京都港区南青山3-8-12<br>
+          NEXUSビル5F<br>
+          TEL: 03-0000-0000<br>
+          MAIL: info@nexus-inc.example.com
+        </address>
+      </div>
+
+      <div class="footer__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">会社概要</a></li>
+          <li><a href="about.html#history">沿革</a></li>
+          <li><a href="recruit.html">採用情報</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="service.html">DX推進支援</a></li>
+          <li><a href="service.html">業務システム開発</a></li>
+          <li><a href="service.html">クラウドインフラ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="contact.html">お問い合わせ</a></li>
+          <li><a href="works.html">実績・事例</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">&copy; 2024 NEXUS Inc. All rights reserved.</p>
+      <p class="footer__tagline">テクノロジーで、未来をつなぐ。</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Header scroll effect
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ── Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+hamburger.addEventListener('click', () => {
+  const isOpen = hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', String(isOpen));
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+// Close on link click
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  });
+});
+
+// ── Intersection Observer for fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

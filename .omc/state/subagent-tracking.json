@@ -35,10 +35,28 @@
       "status": "completed",
       "completed_at": "2026-04-14T17:25:59.415Z",
       "duration_ms": 145737
+    },
+    {
+      "agent_id": "a6b024a6d8af62b63",
+      "agent_type": "designer",
+      "started_at": "2026-04-14T17:29:35.333Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-14T17:32:06.956Z",
+      "duration_ms": 151623
+    },
+    {
+      "agent_id": "a0f243cf4cb9e41c3",
+      "agent_type": "designer",
+      "started_at": "2026-04-14T17:50:41.056Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-14T17:59:49.095Z",
+      "duration_ms": 548039
     }
   ],
-  "total_spawned": 4,
-  "total_completed": 4,
+  "total_spawned": 6,
+  "total_completed": 6,
   "total_failed": 0,
-  "last_updated": "2026-04-14T17:25:59.527Z"
+  "last_updated": "2026-04-14T17:59:49.202Z"
 }

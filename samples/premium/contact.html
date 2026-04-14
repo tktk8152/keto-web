@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ — NEXUS株式会社</title>
+  <meta name="description" content="NEXUS株式会社へのお問い合わせ。DX推進・システム開発・クラウドインフラに関するご相談はお気軽にどうぞ。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header scrolled" id="header" role="banner">
+  <div class="header__inner">
+    <a href="index.html" class="header__logo" aria-label="NEXUS株式会社 トップページ">
+      NEXUS<span class="header__logo-dot"></span>
+    </a>
+    <nav class="header__nav" aria-label="メインナビゲーション">
+      <a href="index.html">Top</a>
+      <a href="about.html">会社概要</a>
+      <a href="service.html">サービス</a>
+      <a href="works.html">実績</a>
+      <a href="recruit.html">採用</a>
+    </nav>
+    <div class="header__cta">
+      <a href="contact.html" class="btn btn--primary active">
+        お問い合わせ
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="ナビゲーションメニュー">
+  <a href="index.html">Top</a>
+  <a href="about.html">会社概要</a>
+  <a href="service.html">サービス</a>
+  <a href="works.html">実績</a>
+  <a href="recruit.html">採用</a>
+  <a href="contact.html">お問い合わせ</a>
+</div>
+
+<!-- ── Page Hero ── -->
+<section class="page-hero" aria-label="お問い合わせ">
+  <div class="page-hero__bg" aria-hidden="true"></div>
+  <div class="page-hero__label" aria-hidden="true">Contact</div>
+  <div class="container">
+    <div class="page-hero__content">
+      <p class="section-label">Get in Touch</p>
+      <h1 class="page-hero__en">Contact</h1>
+      <p class="page-hero__jp">お問い合わせ — まずはお気軽にご相談ください</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact intro strip ── -->
+<section style="background:var(--navy-mid); padding:32px 0;" aria-label="お問い合わせ概要">
+  <div class="container">
+    <div style="display:flex; align-items:center; justify-content:center; gap:60px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.7); font-size:14px;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="var(--blue)" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="9" r="7"/><polyline points="9,5 9,9 12,11"/></svg>
+        平日 9:00 〜 18:00 対応
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.7); font-size:14px;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="var(--blue)" stroke-width="1.8" aria-hidden="true"><polyline points="3,5 9,10 15,5"/><rect x="2" y="4" width="14" height="11" rx="2"/></svg>
+        最短翌営業日にご返信
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.7); font-size:14px;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="var(--blue)" stroke-width="1.8" aria-hidden="true"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7Z"/></svg>
+        初回相談は無料
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact Form + Info ── -->
+<section class="section" aria-labelledby="contact-form-heading">
+  <div class="container">
+    <div class="contact-layout fade-in">
+
+      <!-- Form -->
+      <div class="contact-form" role="form" aria-label="お問い合わせフォーム">
+        <h2 id="contact-form-heading">お問い合わせフォーム</h2>
+        <p class="sub">以下のフォームにご記入の上、送信ボタンをクリックしてください。<br>担当者より折り返しご連絡いたします。</p>
+
+        <form novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="company">会社名<span class="req" aria-label="必須">*</span></label>
+              <input type="text" id="company" name="company" placeholder="NEXUS株式会社" autocomplete="organization" required>
+            </div>
+            <div class="form-group">
+              <label for="dept">部署名</label>
+              <input type="text" id="dept" name="dept" placeholder="情報システム部" autocomplete="organization-title">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">担当者名<span class="req" aria-label="必須">*</span></label>
+              <input type="text" id="name" name="name" placeholder="田中 健太" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+              <label for="name-kana">担当者名（フリガナ）</label>
+              <input type="text" id="name-kana" name="name-kana" placeholder="タナカ ケンタ">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">メールアドレス<span class="req" aria-label="必須">*</span></label>
+            <input type="email" id="email" name="email" placeholder="kenta@example.com" autocomplete="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="tel">電話番号</label>
+            <input type="tel" id="tel" name="tel" placeholder="03-0000-0000" autocomplete="tel">
+          </div>
+
+          <div class="form-group">
+            <label for="category">お問い合わせ種別<span class="req" aria-label="必須">*</span></label>
+            <select id="category" name="category" required>
+              <option value="" disabled selected>選択してください</option>
+              <option value="dx">DX推進支援について</option>
+              <option value="system">業務システム開発について</option>
+              <option value="cloud">クラウドインフラ構築について</option>
+              <option value="recruit">採用・求人について</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">お問い合わせ内容<span class="req" aria-label="必須">*</span></label>
+            <textarea id="message" name="message" placeholder="ご相談内容をできるだけ詳しくご記入ください。&#10;&#10;例）現在の課題、実現したいこと、予算感、スケジュールなど" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer; font-size:14px; font-weight:400; color:var(--gray-600);">
+              <input type="checkbox" name="privacy" required style="width:auto; padding:0; margin-top:3px; accent-color:var(--blue);">
+              <span><a href="#" style="color:var(--blue); text-decoration:underline;">プライバシーポリシー</a>に同意する</span>
+            </label>
+          </div>
+
+          <button type="submit" class="form-submit">
+            送信する
+          </button>
+        </form>
+      </div>
+
+      <!-- Info -->
+      <div class="contact-info fade-in fade-in-delay-1">
+        <h3>会社情報</h3>
+
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M10 1C6.7 1 4 3.7 4 7c0 4.5 6 12 6 12s6-7.5 6-12c0-3.3-2.7-6-6-6z"/>
+              <circle cx="10" cy="7" r="2"/>
+            </svg>
+          </div>
+          <div>
+            <p class="contact-info-item__label">所在地</p>
+            <p class="contact-info-item__val">
+              〒107-0062<br>
+              東京都港区南青山3-8-12<br>
+              NEXUSビル5F
+            </p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M15.5 13.5c-1 1-2.5 1.5-4 1.5-3.3 0-8-4.7-8-8 0-1.5.5-3 1.5-4l2-2 3 3-1.5 2.5 4.5 4.5 2.5-1.5 3 3-2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="contact-info-item__label">電話番号</p>
+            <p class="contact-info-item__val">03-0000-0000</p>
+            <p style="font-size:13px; color:var(--gray-400); margin-top:4px;">平日 9:00〜18:00</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="2" y="4" width="16" height="12" rx="2"/>
+              <polyline points="2,6 10,12 18,6"/>
+            </svg>
+          </div>
+          <div>
+            <p class="contact-info-item__label">メールアドレス</p>
+            <p class="contact-info-item__val">info@nexus-inc.example.com</p>
+            <p style="font-size:13px; color:var(--gray-400); margin-top:4px;">最短翌営業日に返信</p>
+          </div>
+        </div>
+
+        <!-- Access info card -->
+        <div style="background:var(--gray-100); border-radius:var(--radius-md); padding:28px; margin-top:16px;">
+          <p style="font-size:12px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray-400); margin-bottom:16px;">アクセス</p>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--gray-600);">
+              <div style="width:8px; height:8px; background:var(--blue); border-radius:50%; flex-shrink:0;"></div>
+              東京メトロ銀座線「表参道」駅 徒歩7分
+            </div>
+            <div style="display:flex; align-items:center; gap:10px; font-size:14px; color:var(--gray-600);">
+              <div style="width:8px; height:8px; background:var(--blue); border-radius:50%; flex-shrink:0;"></div>
+              東京メトロ千代田線「表参道」駅 徒歩9分
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo">NEXUS<span class="header__logo-dot"></span></div>
+        <p class="footer__desc">テクノロジーの力で企業の可能性を最大化する。DX推進から業務システム開発、クラウドインフラ構築まで、ワンストップで支援します。</p>
+        <address class="footer__address">
+          〒107-0062 東京都港区南青山3-8-12 NEXUSビル5F<br>
+          TEL: 03-0000-0000 / info@nexus-inc.example.com
+        </address>
+      </div>
+      <div class="footer__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">会社概要</a></li>
+          <li><a href="about.html#history">沿革</a></li>
+          <li><a href="recruit.html">採用情報</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="service.html">DX推進支援</a></li>
+          <li><a href="service.html">業務システム開発</a></li>
+          <li><a href="service.html">クラウドインフラ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="contact.html">お問い合わせ</a></li>
+          <li><a href="works.html">実績・事例</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">&copy; 2024 NEXUS Inc. All rights reserved.</p>
+      <p class="footer__tagline">テクノロジーで、未来をつなぐ。</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 0);
+}, { passive: true });
+
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  const isOpen = hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', String(isOpen));
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  });
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

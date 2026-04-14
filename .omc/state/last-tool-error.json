@@ -1,7 +1,7 @@
 {
-  "tool_name": "WebFetch",
-  "tool_input_preview": "{\"url\":\"https://gallica.tokyo/\",\"prompt\":\"このサイトが存在するか、何のサイトか一言で教えて\"}",
-  "error": "getaddrinfo ENOTFOUND gallica.tokyo",
-  "timestamp": "2026-04-14T17:07:56.650Z",
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"C:\\\\Claude Code Pro\\\\site\\\\style.css\"}",
+  "error": "File content (10204 tokens) exceeds maximum allowed tokens (10000). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
+  "timestamp": "2026-04-14T17:29:38.226Z",
   "retry_count": 1
 }
