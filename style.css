@@ -724,6 +724,21 @@ button {
   line-height: 1.5;
 }
 
+.pricing-sample-link {
+  display: block;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--violet);
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: color 0.2s;
+}
+.pricing-sample-link:hover {
+  color: var(--violet-hover);
+  text-decoration: underline;
+}
+
 .pricing-btn {
   width: 100%;
   justify-content: center;

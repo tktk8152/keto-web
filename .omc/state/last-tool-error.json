@@ -1,0 +1,7 @@
+{
+  "tool_name": "WebFetch",
+  "tool_input_preview": "{\"url\":\"https://gallica.tokyo/\",\"prompt\":\"このサイトが存在するか、何のサイトか一言で教えて\"}",
+  "error": "getaddrinfo ENOTFOUND gallica.tokyo",
+  "timestamp": "2026-04-14T17:07:56.650Z",
+  "retry_count": 1
+}

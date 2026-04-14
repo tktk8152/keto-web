@@ -1,0 +1,8 @@
+{"t":0,"agent":"af26153","agent_type":"designer","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"af26153","agent_type":"designer","event":"agent_stop","success":true,"duration_ms":340251}
+{"t":0,"agent":"a8bce5f","agent_type":"general-purpose","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a8bce5f","agent_type":"general-purpose","event":"agent_stop","success":true,"duration_ms":16647}
+{"t":0,"agent":"a7d3c9b","agent_type":"designer","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a7d3c9b","agent_type":"designer","event":"agent_stop","success":true,"duration_ms":77764}
+{"t":0,"agent":"a6ca36a","agent_type":"designer","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a6ca36a","agent_type":"designer","event":"agent_stop","success":true,"duration_ms":145737}
