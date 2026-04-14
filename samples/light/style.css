@@ -101,6 +101,32 @@ ul, ol {
   min-height: 70vh;
   display: flex;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.fv-img-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.fv-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.fv-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(58,48,40,0.72) 0%,
+    rgba(139,111,78,0.40) 100%
+  );
 }
 
 .fv-inner {
@@ -108,6 +134,50 @@ ul, ol {
   width: 100%;
   margin: 0 auto;
   padding: 80px 24px;
+}
+
+.fv-inner-overlay {
+  position: relative;
+  z-index: 1;
+}
+
+.fv-inner-overlay .fv-sub {
+  color: rgba(255,255,255,0.80);
+}
+
+.fv-inner-overlay .fv-catch {
+  color: #ffffff;
+}
+
+.fv-inner-overlay .fv-open {
+  color: rgba(255,255,255,0.70);
+  border-top-color: rgba(255,255,255,0.25);
+}
+
+/* --- Section image common --- */
+.section-img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  display: block;
+  max-width: 100%;
+}
+
+/* --- コンセプト layout with image --- */
+.concept-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.concept-img-wrap {
+  width: 100%;
+}
+
+/* --- メニュー画像 --- */
+.menu-img-wrap {
+  margin-bottom: 32px;
 }
 
 .fv-sub {

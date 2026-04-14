@@ -111,6 +111,32 @@ img {
   min-height: 72vh;
   display: flex;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.fv-img-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.fv-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.fv-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(46,40,48,0.75) 0%,
+    rgba(155,142,142,0.30) 100%
+  );
 }
 
 .fv-inner {
@@ -118,6 +144,61 @@ img {
   width: 100%;
   margin: 0 auto;
   padding: 96px 32px;
+}
+
+.fv-inner-overlay {
+  position: relative;
+  z-index: 1;
+}
+
+.fv-inner-overlay .fv-eyebrow {
+  color: rgba(255,255,255,0.65);
+}
+
+.fv-inner-overlay .fv-catch {
+  color: #ffffff;
+}
+
+.fv-inner-overlay .fv-desc {
+  color: rgba(255,255,255,0.60);
+  border-top-color: rgba(255,255,255,0.20);
+}
+
+/* --- Section image common --- */
+.section-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  display: block;
+  max-width: 100%;
+}
+
+/* --- スタイリスト画像 --- */
+.stylist-img-wrap {
+  width: 100%;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.stylist-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: var(--radius);
+}
+
+/* --- メニューページ画像 --- */
+.menu-hero-img-wrap {
+  margin-bottom: 40px;
+}
+
+/* --- アクセスページ画像 --- */
+.access-salon-img-wrap {
+  width: 100%;
 }
 
 .fv-eyebrow {

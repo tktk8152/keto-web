@@ -28,7 +28,18 @@
 
     <!-- ファーストビュー -->
     <section class="fv" aria-label="キャッチコピー">
-      <div class="fv-inner">
+      <div class="fv-img-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&q=80"
+          alt="カフェのコーヒーカップ、温かみのある一杯"
+          class="fv-bg-img"
+          width="1200"
+          height="800"
+          loading="eager"
+        >
+        <div class="fv-img-overlay" aria-hidden="true"></div>
+      </div>
+      <div class="fv-inner fv-inner-overlay">
         <p class="fv-sub">haru cafe</p>
         <h1 class="fv-catch">ほっとひと息つける、<br>小さなカフェ。</h1>
         <p class="fv-open">OPEN 10:00 〜 18:00　水曜定休</p>
@@ -39,14 +50,26 @@
     <section class="section concept" aria-labelledby="concept-heading">
       <div class="container">
         <h2 class="section-label" id="concept-heading">about</h2>
-        <p class="concept-text">
-          こんにちは、haru cafeです。<br>
-          渋谷の静かな路地に、2020年から小さなカフェを営んでいます。<br>
-          自家焙煎のコーヒーと、地元の食材を使った素朴なフードを<br class="br-pc">
-          毎日丁寧にご用意しています。<br>
-          忙しい日のちょっとした休憩に、ゆっくりした休日のひとときに——<br>
-          どうぞ気軽に立ち寄ってください。
-        </p>
+        <div class="concept-layout">
+          <p class="concept-text">
+            こんにちは、haru cafeです。<br>
+            渋谷の静かな路地に、2020年から小さなカフェを営んでいます。<br>
+            自家焙煎のコーヒーと、地元の食材を使った素朴なフードを<br class="br-pc">
+            毎日丁寧にご用意しています。<br>
+            忙しい日のちょっとした休憩に、ゆっくりした休日のひとときに——<br>
+            どうぞ気軽に立ち寄ってください。
+          </p>
+          <div class="concept-img-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80"
+              alt="haru cafeの落ち着いた店内の様子"
+              class="section-img"
+              width="800"
+              height="533"
+              loading="lazy"
+            >
+          </div>
+        </div>
       </div>
     </section>
 
@@ -91,6 +114,16 @@
           </ul>
         </div>
 
+        <div class="menu-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
+            alt="コーヒーとケーキのセット、素朴で温かみのある一皿"
+            class="section-img"
+            width="800"
+            height="533"
+            loading="lazy"
+          >
+        </div>
         <p class="menu-note">※ メニューは季節により変わる場合があります。</p>
       </div>
     </section>
