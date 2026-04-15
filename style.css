@@ -646,38 +646,58 @@ button {
 
 .pain-number {
   font-family: var(--font-mono);
-  font-size: 2.4rem;
-  font-weight: 500;
-  color: rgba(255,107,107,0.2);
+  font-size: 2rem;
+  font-weight: 600;
+  color: rgba(255,107,107,0.35);
   line-height: 1;
 }
 
 .pain-text {
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--text-secondary);
-  line-height: 1.8;
+  font-size: 17px;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.85;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
 .pain-text strong {
-  color: var(--text);
+  color: #1a1a2e;
   font-weight: 700;
 }
 
 .pain-resolve {
   text-align: center;
-  padding: 32px;
+  padding: 28px 32px 32px;
   background: linear-gradient(135deg, rgba(255,107,107,0.05), rgba(132,94,247,0.05));
   border: 1.5px solid rgba(132,94,247,0.15);
   border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
 }
 
 .pain-resolve-text {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text);
   letter-spacing: 0;
+}
+
+.pain-resolve-badges {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pain-resolve-badges span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--violet);
+  background: var(--violet-dim);
+  border: 1px solid rgba(132,94,247,0.15);
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
 }
 
 /* --- Pricing ---------------------------------------------- */
