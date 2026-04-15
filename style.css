@@ -1111,6 +1111,22 @@ button {
   padding: 3px 10px;
 }
 
+.profile-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.profile-trust span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--violet);
+  background: var(--violet-dim);
+  border: 1px solid rgba(132,94,247,0.15);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+}
+
 .profile-threads {
   display: inline-flex;
   align-items: center;
