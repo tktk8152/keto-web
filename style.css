@@ -1471,6 +1471,92 @@ button {
   }
 }
 
+/* --- Referral Compact ------------------------------------- */
+.referral-compact {
+  padding: 48px 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+.referral-compact-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: linear-gradient(135deg, rgba(255,107,107,0.04), rgba(132,94,247,0.04));
+  border: 1.5px solid rgba(132,94,247,0.12);
+  border-radius: var(--radius-lg);
+  padding: 28px 36px;
+  flex-wrap: wrap;
+}
+
+.referral-compact-text {
+  flex: 1;
+  min-width: 260px;
+}
+
+.referral-compact-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 8px;
+}
+
+.referral-compact-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.referral-compact-amounts {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.referral-compact-amounts strong {
+  color: var(--violet);
+  font-weight: 700;
+}
+
+.referral-compact-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+.referral-compact-sub small {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.referral-compact-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1.5px solid rgba(132,94,247,0.3);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+.referral-compact-link:hover {
+  color: var(--violet-hover);
+  border-color: var(--violet);
+}
+
+@media (max-width: 640px) {
+  .referral-compact-card {
+    flex-direction: column;
+    padding: 24px 20px;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
 /* --- Footer ----------------------------------------------- */
 .footer {
   border-top: 1px solid var(--border);
