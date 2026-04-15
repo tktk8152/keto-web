@@ -783,6 +783,18 @@ button {
   color: var(--text-secondary);
   font-weight: 400;
   line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.pricing-plan-target {
+  font-size: 13px;
+  color: var(--violet);
+  font-weight: 500;
+  line-height: 1.5;
+  background: var(--violet-dim);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  display: inline-block;
 }
 
 .pricing-price-block {
@@ -883,6 +895,32 @@ button {
 .pricing-btn {
   width: 100%;
   justify-content: center;
+}
+
+.btn-outline-strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 40px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-decoration: none;
+  background: transparent;
+  color: var(--text);
+  border: 2px solid var(--border-strong);
+  transition: all 0.22s ease;
+}
+.btn-outline-strong:hover {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elevated);
 }
 
 /* --- Steps ------------------------------------------------ */
@@ -1788,11 +1826,11 @@ button {
 .pricing-footnote-row {
   display: flex;
   gap: 16px;
-  font-size: 14px;
-  color: #6b7280;
-  line-height: 1.75;
+  font-size: 15px;
+  color: #4b5563;
+  line-height: 1.85;
   align-items: flex-start;
-  padding: 8px 0;
+  padding: 10px 0;
   border-bottom: 1px solid #f0f0f0;
 }
 .pricing-footnote-row:last-child {
