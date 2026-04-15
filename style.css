@@ -1566,6 +1566,17 @@ button {
   text-align: center;
 }
 
+.contact-form-success {
+  padding: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--violet);
+  background: var(--violet-dim);
+  border-radius: var(--radius-sm);
+  line-height: 1.75;
+}
+
 @media (max-width: 768px) {
   .contact-wrap {
     grid-template-columns: 1fr;

@@ -536,8 +536,7 @@
         <!-- Form Sub -->
         <div class="contact-form-wrap fade-in">
           <p class="contact-form-label">LINEが苦手な方はこちら</p>
-          <!-- TODO: Formspree setup — sign up at formspree.io and replace YOUR_FORM_ID -->
-          <form class="contact-form-simple" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="contact-form">
+          <form class="contact-form-simple" action="https://formspree.io/f/xvzdzqyp" method="POST" id="contact-form">
             <input type="text" name="name" placeholder="お名前" required class="contact-input">
             <input type="email" name="email" placeholder="メールアドレス" required class="contact-input">
             <textarea name="message" placeholder="ご相談内容（例：カフェのHPを1ページ作りたいです）" required class="contact-textarea" rows="4"></textarea>
@@ -628,6 +627,35 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('nav-scrolled', window.scrollY > 24);
     }, { passive: true });
+
+    // Contact form (Formspree AJAX)
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = contactForm.querySelector('.contact-submit');
+        btn.disabled = true;
+        btn.textContent = '送信中…';
+        try {
+          const res = await fetch(contactForm.action, {
+            method: 'POST',
+            body: new FormData(contactForm),
+            headers: { Accept: 'application/json' }
+          });
+          if (res.ok) {
+            contactForm.innerHTML = '<p class="contact-form-success">お問い合わせありがとうございます。24時間以内にご連絡します。</p>';
+          } else {
+            btn.disabled = false;
+            btn.textContent = 'フォームで問い合わせる';
+            alert('送信に失敗しました。LINEからご相談ください。');
+          }
+        } catch {
+          btn.disabled = false;
+          btn.textContent = 'フォームで問い合わせる';
+          alert('送信に失敗しました。LINEからご相談ください。');
+        }
+      });
+    }
 
     // FAQ accordion
     document.querySelectorAll('#faq-list .faq-question').forEach(btn => {
