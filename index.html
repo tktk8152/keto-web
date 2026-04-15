@@ -350,42 +350,42 @@
         <p class="section-eyebrow">よくある質問</p>
         <h2 class="section-heading">相談前に気になること</h2>
       </div>
-      <div class="faq-list fade-in">
-        <details class="faq-item">
-          <summary class="faq-question">
+      <div class="faq-list fade-in" id="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
             <span>何を準備すればいいですか？</span>
             <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </summary>
-          <p class="faq-answer">「こういうHPが欲しい」というイメージだけで大丈夫です。写真・文章・ロゴは用意なしでも相談OK。ヒアリングしながら一緒に決めていきます。</p>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">
+          </button>
+          <div class="faq-answer" hidden>「こういうHPが欲しい」というイメージだけで大丈夫です。写真・文章・ロゴは用意なしでも相談OK。ヒアリングしながら一緒に決めていきます。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
             <span>写真や文章がなくても大丈夫ですか？</span>
             <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </summary>
-          <p class="faq-answer">大丈夫です。フリー素材の写真を使ったり、文章のたたき台を一緒に考えることもできます。まず気軽にご相談ください。</p>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">
+          </button>
+          <div class="faq-answer" hidden>大丈夫です。フリー素材の写真を使ったり、文章のたたき台を一緒に考えることもできます。まず気軽にご相談ください。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
             <span>サーバーやドメインが分からなくても大丈夫ですか？</span>
             <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </summary>
-          <p class="faq-answer">大丈夫です。サーバー・ドメインの取得から公開まで、手順を説明しながらサポートします。ただし、サーバー代・ドメイン代は別途かかります（年間1,500〜3,000円程度）。</p>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">
+          </button>
+          <div class="faq-answer" hidden>大丈夫です。サーバー・ドメインの取得から公開まで、手順を説明しながらサポートします。ただし、サーバー代・ドメイン代は別途かかります（年間1,500〜3,000円程度）。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
             <span>修正はどこまで対応してもらえますか？</span>
             <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </summary>
-          <p class="faq-answer">プランに応じた回数（ライト2回、スタンダード3回、プレミアム5回）の修正に対応します。また、納品後7日間は軽微な修正を無料で対応します。追加修正が必要な場合は別途相談ください。</p>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">
+          </button>
+          <div class="faq-answer" hidden>プランに応じた回数（ライト2回、スタンダード3回、プレミアム5回）の修正に対応します。また、納品後7日間は軽微な修正を無料で対応します。追加修正が必要な場合は別途相談ください。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
             <span>学生でも本当に対応できますか？</span>
             <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </summary>
-          <p class="faq-answer">できます。サンプルページをご覧いただければ、制作クオリティはご確認いただけます。「高校生だから安心できない」という方には、無理にお勧めしません。実際に見て、話して、判断してください。</p>
-        </details>
+          </button>
+          <div class="faq-answer" hidden>できます。サンプルページをご覧いただければ、制作クオリティはご確認いただけます。「高校生だから安心できない」という方には、無理にお勧めしません。実際に見て、話して、判断してください。</div>
+        </div>
       </div>
     </div>
   </section>
@@ -538,6 +538,26 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('nav-scrolled', window.scrollY > 24);
     }, { passive: true });
+
+    // FAQ accordion
+    document.querySelectorAll('#faq-list .faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        // Close all
+        document.querySelectorAll('#faq-list .faq-item').forEach(i => {
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          i.querySelector('.faq-answer').hidden = true;
+          i.classList.remove('faq-item-open');
+        });
+        if (!isOpen) {
+          btn.setAttribute('aria-expanded', 'true');
+          answer.hidden = false;
+          item.classList.add('faq-item-open');
+        }
+      });
+    });
 
     // IntersectionObserver fade-in
     const fadeEls = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .fade-in-up, .scale-in');
