@@ -510,24 +510,43 @@
     <div class="container">
       <div class="section-header fade-in">
         <p class="section-eyebrow">お問い合わせ</p>
-        <h2 class="section-heading">まずは気軽に<br>ご相談ください</h2>
-        <p class="section-desc">料金や制作期間など、気になることは何でもお聞きください。</p>
+        <h2 class="section-heading">まずはLINEで<br>気軽にご相談ください</h2>
+        <p class="section-desc">料金・制作期間・準備するものなど、気になることは何でもご相談いただけます。<br>まだ依頼すると決めていない段階でも大丈夫です。</p>
       </div>
-      <div class="line-cta fade-in-up">
-        <div class="line-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2C6.48 2 2 5.82 2 10.5c0 2.83 1.68 5.33 4.3 6.96-.17.6-.6 2.2-.7 2.54-.12.42.16.41.33.3.14-.1 2.1-1.43 2.96-2.01.67.1 1.37.16 2.11.16 5.52 0 10-3.82 10-8.45S17.52 2 12 2z" fill="#06C755"/>
-          </svg>
+
+      <div class="contact-wrap">
+        <!-- LINE Main -->
+        <div class="line-cta fade-in-up">
+          <div class="line-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C6.48 2 2 5.82 2 10.5c0 2.83 1.68 5.33 4.3 6.96-.17.6-.6 2.2-.7 2.54-.12.42.16.41.33.3.14-.1 2.1-1.43 2.96-2.01.67.1 1.37.16 2.11.16 5.52 0 10-3.82 10-8.45S17.52 2 12 2z" fill="#06C755"/>
+            </svg>
+          </div>
+          <h3 class="line-title">相談だけでもOKです</h3>
+          <p class="line-desc">「1ページだけ作りたい」「何を準備すればいいか分からない」<br>そんな状態でも大丈夫です。LINEで気軽にご相談ください。</p>
+          <a href="https://lin.ee/rHhkMaP" class="btn btn-line" target="_blank" rel="noopener noreferrer">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C6.48 2 2 5.82 2 10.5c0 2.83 1.68 5.33 4.3 6.96-.17.6-.6 2.2-.7 2.54-.12.42.16.41.33.3.14-.1 2.1-1.43 2.96-2.01.67.1 1.37.16 2.11.16 5.52 0 10-3.82 10-8.45S17.52 2 12 2z" fill="#ffffff"/>
+            </svg>
+            LINEで相談する
+          </a>
+          <p class="line-note">無理な営業はしません。返信は通常24時間以内です。</p>
         </div>
-        <h3 class="line-title">LINEで気軽にご相談ください</h3>
-        <p class="line-desc">友だち追加していただければ、料金・制作期間など<br>何でもお気軽にご質問いただけます。</p>
-        <a href="https://lin.ee/rHhkMaP" class="btn btn-line" target="_blank" rel="noopener noreferrer">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2C6.48 2 2 5.82 2 10.5c0 2.83 1.68 5.33 4.3 6.96-.17.6-.6 2.2-.7 2.54-.12.42.16.41.33.3.14-.1 2.1-1.43 2.96-2.01.67.1 1.37.16 2.11.16 5.52 0 10-3.82 10-8.45S17.52 2 12 2z" fill="#ffffff"/>
-          </svg>
-          友だち追加する
-        </a>
+
+        <!-- Form Sub -->
+        <div class="contact-form-wrap fade-in">
+          <p class="contact-form-label">LINEが苦手な方はこちら</p>
+          <!-- TODO: Formspree setup — sign up at formspree.io and replace YOUR_FORM_ID -->
+          <form class="contact-form-simple" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="contact-form">
+            <input type="text" name="name" placeholder="お名前" required class="contact-input">
+            <input type="email" name="email" placeholder="メールアドレス" required class="contact-input">
+            <textarea name="message" placeholder="ご相談内容（例：カフェのHPを1ページ作りたいです）" required class="contact-textarea" rows="4"></textarea>
+            <button type="submit" class="btn btn-outline-strong contact-submit">フォームで問い合わせる</button>
+          </form>
+          <p class="contact-form-note">送信後、24時間以内にご連絡します。</p>
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -548,14 +567,26 @@
 
   <!-- Footer -->
   <footer class="footer" role="contentinfo">
-    <div class="container footer-inner">
-      <a href="#top" class="footer-logo" aria-label="トップへ戻る">
-        <span class="nav-logo-text">KETO</span>
-      </a>
-      <p class="footer-copy">© 2026 けと. All rights reserved.</p>
-      <a href="https://www.threads.net/@keto_and_ai" class="footer-threads" target="_blank" rel="noopener noreferrer" aria-label="Threadsアカウントを開く">
-        Threads: @keto_and_ai
-      </a>
+    <div class="container footer-body">
+      <div class="footer-top">
+        <a href="#top" class="footer-logo" aria-label="トップへ戻る">
+          <span class="nav-logo-text">KETO</span>
+        </a>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <a href="#samples">制作サンプル</a>
+          <a href="#pricing">料金</a>
+          <a href="#faq">FAQ</a>
+          <a href="#steps">流れ</a>
+          <a href="#contact">お問い合わせ</a>
+        </nav>
+        <div class="footer-links">
+          <a href="https://lin.ee/rHhkMaP" target="_blank" rel="noopener noreferrer" class="footer-link-line">LINE相談</a>
+          <a href="https://www.threads.net/@keto_and_ai" target="_blank" rel="noopener noreferrer" class="footer-link-threads">@keto_and_ai</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 けと. All rights reserved.</p>
+      </div>
     </div>
   </footer>
 
