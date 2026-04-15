@@ -1227,12 +1227,13 @@ button {
 .referral-example {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   padding: 16px 20px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   transition: border-color 0.2s, box-shadow 0.2s;
+  flex-wrap: nowrap;
 }
 
 .referral-example:hover {
@@ -1272,6 +1273,22 @@ button {
 }
 
 @media (max-width: 768px) {
+  .referral-example-plan {
+    min-width: auto;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .referral-example-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+  .referral-example-amount {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .referral-example-amount small {
+    font-size: 10px;
+  }
   .referral-card {
     padding: 32px 24px;
     gap: 28px;
