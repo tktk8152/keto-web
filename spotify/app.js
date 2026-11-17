@@ -780,20 +780,38 @@
       const holder = h('div', {}, loadingRow());
       root.append(holder);
 
-      // 2026年2月以降: /tracks → /items、各要素の track → item に名称変更。旧形式にもフォールバック。
+      // 2026年2月以降: /tracks → /items、各要素の track → item に名称変更。
+      // 1回で取れる件数の上限も変わっている可能性があるので、取り方を順に試す。
+      const attempts = [
+        () => collect(`/playlists/${p.id}/items?limit=50`, 20),
+        () => collect(`/playlists/${p.id}/items`, 40),
+        // プレイリスト本体に曲が含まれる形式（自分のプレイリストは items.items、旧形式は tracks.items）
+        async () => {
+          const full = await api(`/playlists/${p.id}`);
+          const page = full?.items?.items ? full.items : full?.tracks?.items ? full.tracks : null;
+          if (!page) { const e = new Error('曲一覧が含まれていません'); e.status = 403; throw e; }
+          const rest = page.next ? (await collect(page.next, 20)).items : [];
+          return { items: page.items.concat(rest) };
+        },
+        () => collect(`/playlists/${p.id}/tracks?limit=50`, 20),
+      ];
       let entries = null;
-      for (const ep of ['items', 'tracks']) {
+      let lastErr = null;
+      for (const tryLoad of attempts) {
         try {
-          entries = (await collect(`/playlists/${p.id}/${ep}?limit=100`)).items;
+          entries = (await tryLoad()).items;
           break;
-        } catch {
+        } catch (e) {
+          lastErr = lastErr && lastErr.status === 403 ? lastErr : e; // 403 を優先して覚えておく
           entries = null;
         }
       }
       if (!alive()) return;
       if (!entries) {
-        holder.replaceChildren(h('div', { class: 'note' },
-          'このプレイリストの曲一覧は表示できません。Spotify の制限で、曲一覧を取得できるのは自分が作成・共同編集しているプレイリストだけです。上の再生ボタンからまとめて再生はできます。'));
+        const notMine = p.owner?.id && me?.id && p.owner.id !== me.id && !p.collaborative;
+        holder.replaceChildren(h('div', { class: 'note' }, notMine
+          ? 'このプレイリストは他の人（または Spotify）が作成したものなので、曲一覧を表示できません（Spotify 側の制限）。上の再生ボタンからまとめて再生はできます。'
+          : `曲一覧を読み込めませんでした（${lastErr?.status ? `HTTP ${lastErr.status}: ` : ''}${lastErr?.message || '不明なエラー'}）。上の再生ボタンからまとめて再生はできます。`));
         return;
       }
       const tracks = entries.map((e) => e?.item ?? e?.track).filter((t) => t && t.uri && !t.is_local);
