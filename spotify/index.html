@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>My Player</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+  <!-- 初回設定: Client ID 入力 -->
+  <section id="setup" class="screen" hidden>
+    <div class="card">
+      <h1>My Player</h1>
+      <p>Spotify Developer Dashboard で作成したアプリの <b>Client ID</b> を入力してください。</p>
+      <ol class="steps">
+        <li><a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener">developer.spotify.com/dashboard</a> で「Create app」</li>
+        <li>「Which API/SDKs are you planning to use?」で <b>Web API</b> と <b>Web Playback SDK</b> にチェック</li>
+        <li>Redirect URI に次の値を登録:<br><code id="redirectUri"></code></li>
+      </ol>
+      <form id="setupForm">
+        <input id="clientIdInput" placeholder="Client ID" autocomplete="off" required>
+        <button type="submit" class="primary">保存</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ログイン -->
+  <section id="login" class="screen" hidden>
+    <div class="card">
+      <h1>My Player</h1>
+      <p>Spotify アカウントでログインすると、このページ自体が再生デバイスになります。</p>
+      <p class="muted small">※ ブラウザでの再生には Spotify Premium が必要です。</p>
+      <button id="loginBtn" class="primary big">Spotify でログイン</button>
+      <button id="resetClientBtn" class="link">Client ID を変更</button>
+    </div>
+  </section>
+
+  <!-- メイン -->
+  <div id="app" hidden>
+    <header class="topbar">
+      <div class="brand"><span class="dot"></span>My Player</div>
+      <div class="user">
+        <span id="userName"></span>
+        <button id="logoutBtn" class="ghost">ログアウト</button>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button data-view="search">検索</button>
+      <button data-view="playlists">プレイリスト</button>
+      <button data-view="liked">お気に入りの曲</button>
+    </nav>
+
+    <main id="content"></main>
+
+    <footer class="player">
+      <div class="now">
+        <div class="art"><img id="art" alt="" hidden></div>
+        <div class="meta">
+          <div id="trackName" class="t">再生していません</div>
+          <div id="trackArtist" class="a"></div>
+        </div>
+      </div>
+      <div class="center">
+        <div class="controls">
+          <button id="prevBtn" class="icon" aria-label="前の曲">
+            <svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>
+          </button>
+          <button id="playBtn" class="icon play" aria-label="再生 / 一時停止"></button>
+          <button id="nextBtn" class="icon" aria-label="次の曲">
+            <svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>
+          </button>
+        </div>
+        <div class="progress">
+          <span id="pos">0:00</span>
+          <input type="range" id="seek" min="0" max="1000" value="0" aria-label="再生位置">
+          <span id="dur">0:00</span>
+        </div>
+      </div>
+      <div class="right">
+        <span id="deviceStatus" class="status">接続中…</span>
+        <label class="vol">
+          <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zM16 8.5a4.5 4.5 0 0 1 0 7v-7z"/></svg>
+          <input type="range" id="volume" min="0" max="100" value="50" aria-label="音量">
+        </label>
+      </div>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
