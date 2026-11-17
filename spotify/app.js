@@ -16,6 +16,7 @@
     'playlist-read-private',
     'playlist-read-collaborative',
     'user-library-read',           // お気に入りの曲
+    'user-read-recently-played',   // 再生回数の集計
   ].join(' ');
   const REDIRECT_URI = (window.SPOTIFY_REDIRECT_URI || '').trim() || location.origin + location.pathname;
 
@@ -154,6 +155,7 @@
     store.set('sp_access', json.access_token);
     store.set('sp_expires', String(Date.now() + json.expires_in * 1000));
     if (json.refresh_token) store.set('sp_refresh', json.refresh_token);
+    if (json.scope != null) store.set('sp_scope', json.scope);
     return json.access_token;
   }
 
@@ -180,7 +182,86 @@
   }
 
   function clearTokens() {
-    ['sp_access', 'sp_expires', 'sp_refresh'].forEach(store.del);
+    ['sp_access', 'sp_expires', 'sp_refresh', 'sp_scope'].forEach(store.del);
+  }
+
+  // ---------------------------------------------------------------- 再生回数
+  // Spotify API は曲の再生回数（全世界）を公開していないため、
+  // 「最近再生した曲」を定期的に取り込み、自分のアカウントでの再生回数を数える。
+  // （Spotify アプリやスマホで聴いた分も含む。ブラウザごとに保存）
+  const PC_KEY = 'sp_playcounts';
+  const PC_AFTER = 'sp_pc_after';
+  const PC_SINCE = 'sp_pc_since';
+  let playCounts = {};
+  try { playCounts = JSON.parse(store.get(PC_KEY) || '{}') || {}; } catch { playCounts = {}; }
+  let needsScope = false;
+  let syncing = null;
+  let syncTimer = null;
+
+  const countOf = (uri) => playCounts[uri] || 0;
+  const fmtCount = (n) => (n ? `${n.toLocaleString()}回` : '–');
+
+  function hasScope(name) {
+    const sc = store.get('sp_scope');
+    return sc == null ? null : sc.split(' ').includes(name); // null = 不明（古いトークン）
+  }
+
+  function syncPlayCounts() {
+    if (needsScope) return Promise.resolve();
+    if (hasScope('user-read-recently-played') === false) { requireScope(); return Promise.resolve(); }
+    syncing ??= (async () => {
+      const after = Number(store.get(PC_AFTER) || 0);
+      const params = new URLSearchParams({ limit: '50' });
+      if (after) params.set('after', String(after));
+      let r;
+      try {
+        r = await api(`/me/player/recently-played?${params}`);
+      } catch (e) {
+        if (e.status === 401 || e.status === 403) requireScope();
+        return;
+      }
+      let maxTs = after;
+      for (const it of r?.items || []) {
+        const ts = Date.parse(it.played_at);
+        const uri = it.track?.uri;
+        if (!uri || !ts || ts <= after) continue;
+        playCounts[uri] = (playCounts[uri] || 0) + 1;
+        maxTs = Math.max(maxTs, ts);
+      }
+      if (!store.get(PC_SINCE)) store.set(PC_SINCE, String(Date.now()));
+      store.set(PC_AFTER, String(maxTs || Date.now()));
+      store.set(PC_KEY, JSON.stringify(playCounts));
+      refreshCounts();
+    })().finally(() => { syncing = null; });
+    return syncing;
+  }
+
+  function scheduleSync(ms) {
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(() => safe(syncPlayCounts()), ms);
+  }
+
+  function refreshCounts() {
+    document.querySelectorAll('.trow').forEach((el) => {
+      const c = el.querySelector('.c-plays');
+      if (c) c.textContent = fmtCount(countOf(el.dataset.uri));
+    });
+    const uris = currentUris();
+    const n = uris.reduce((m, u) => Math.max(m, countOf(u)), 0);
+    $('npPlays').hidden = !uris.length;
+    $('npPlaysNum').textContent = n ? `${n.toLocaleString()}回` : 'まだ記録なし';
+  }
+
+  function scopeBanner() {
+    return h('div', { class: 'banner' },
+      h('span', {}, '再生回数を表示するには、一度ログインし直してください。'),
+      h('button', { class: 'btn-accent small', onclick: () => safe(login()) }, '再ログイン'));
+  }
+  function requireScope() {
+    if (needsScope) return;
+    needsScope = true;
+    const view = document.querySelector('#content .view');
+    if (view && !view.querySelector('.banner')) view.prepend(scopeBanner());
   }
 
   // ---------------------------------------------------------------- Web API
@@ -264,10 +345,16 @@
     document.head.append(h('script', { src: 'https://sdk.scdn.co/spotify-player.js' }));
   }
 
+  let lastTrackUri = null;
   function onPlayerState(state) {
     lastState = state;
     lastStateAt = performance.now();
     const track = state?.track_window?.current_track;
+    if (track && track.uri !== lastTrackUri) {
+      // 曲が変わったら、前の曲の再生が Spotify 側に記録された頃に集計を更新
+      lastTrackUri = track.uri;
+      scheduleSync(10_000);
+    }
     const playing = !!state && !state.paused;
     document.body.classList.toggle('paused', !playing);
 
@@ -307,6 +394,7 @@
 
     updateProgress();
     highlightPlaying();
+    refreshCounts();
   }
 
   function currentUris() {
@@ -428,6 +516,7 @@
     const alive = () => seq === renderSeq; // 画面遷移後に古い結果を描画しないため
     const root = $('content');
     const wrap = h('div', { class: 'view' });
+    if (needsScope) wrap.append(scopeBanner());
     root.replaceChildren(wrap);
     root.scrollTop = 0;
     views[view](wrap, alive, arg);
@@ -440,7 +529,13 @@
         h('span', { class: 'c-idx' }, '#'),
         h('span', {}, 'タイトル'),
         h('span', { class: 'c-album' }, 'アルバム'),
+        h('span', { class: 'c-plays', title: playsTitle() }, '再生回数'),
         h('span', { class: 'c-dur' }, icon('clock'))));
+  }
+
+  function playsTitle() {
+    const since = Number(store.get(PC_SINCE) || 0);
+    return `あなたのアカウントでの再生回数${since ? `（${new Date(since).toLocaleDateString('ja-JP')} から記録）` : ''}`;
   }
 
   function trackRow(t, i, onPlay) {
@@ -458,6 +553,7 @@
       img ? h('img', { src: img, alt: '', loading: 'lazy' }) : h('span', { class: 'ph' }),
       h('div', {}, h('div', { class: 't' }, t.name), h('div', { class: 'a' }, artistsOf(t)))),
     h('div', { class: 'c-album' }, t.album?.name || ''),
+    h('div', { class: 'c-plays' }, fmtCount(countOf(t.uri))),
     h('div', { class: 'c-dur' }, fmt(t.duration_ms)));
   }
 
@@ -754,6 +850,8 @@
     bindPlayerControls();
     initPlayer();
     show('home');
+    safe(syncPlayCounts());
+    setInterval(() => safe(syncPlayCounts()), 3 * 60_000);
   }
 
   boot();

@@ -240,7 +240,7 @@ body.in-app .auth-bg { display: none; }
 /* ---------- 曲リスト ---------- */
 .tlist { margin-top: 18px; }
 .thead, .trow {
-  display: grid; grid-template-columns: 40px minmax(0, 1.4fr) minmax(0, 1fr) 64px; gap: 16px; align-items: center; padding: 0 14px;
+  display: grid; grid-template-columns: 40px minmax(0, 1.4fr) minmax(0, 1fr) 76px 64px; gap: 16px; align-items: center; padding: 0 14px;
 }
 .thead { height: 36px; color: var(--dim); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
 .thead .i { width: 16px; height: 16px; }
@@ -258,11 +258,29 @@ body.in-app .auth-bg { display: none; }
 .c-title .t { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .c-title .a, .c-album { color: var(--muted); font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .c-dur { color: var(--muted); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.thead .c-plays, .trow .c-plays { text-align: right; justify-self: end; }
+.trow .c-plays { color: var(--muted); font-size: 13.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.thead .c-plays { cursor: help; }
+
+.banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 22px; padding: 12px 14px 12px 18px; border-radius: 12px; font-size: 14px;
+  background: rgba(200, 245, 96, .08); border: 1px solid rgba(200, 245, 96, .25);
+}
+.btn-accent.small { padding: 7px 16px; font-size: 13px; box-shadow: none; }
+
+.np-plays {
+  display: flex; justify-content: space-between; align-items: baseline; margin-top: 22px; padding: 14px 16px;
+  border-radius: 12px; background: var(--surface); font-size: 13px; color: var(--muted);
+}
+.np-plays b { color: var(--text); font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .trow.playing .t { color: var(--accent); }
 
 /* 再生中のイコライザー */
 .eq { display: none; gap: 2px; align-items: flex-end; height: 14px; }
-.eq i { width: 3px; background: var(--accent); border-radius: 1px; animation: eq 1s ease-in-out infinite; }
+.eq i { width: 3px; height: 60%; background: var(--accent); border-radius: 1px; animation: eq 1s ease-in-out infinite; }
+.eq i:nth-child(2) { height: 100%; }
+.eq i:nth-child(3) { height: 40%; }
 .eq i:nth-child(2) { animation-delay: -.4s; }
 .eq i:nth-child(3) { animation-delay: -.7s; }
 @keyframes eq { 0%, 100% { height: 30%; } 50% { height: 100%; } }
@@ -419,7 +437,8 @@ body.paused .eq i { animation-play-state: paused; }
   .card { padding: 10px 10px 12px; }
   .fab { opacity: 1; transform: none; width: 40px; height: 40px; }
   .thead { display: none; }
-  .thead, .trow { grid-template-columns: 26px minmax(0, 1fr) 44px; gap: 12px; padding: 0 6px; }
+  .thead, .trow { grid-template-columns: 26px minmax(0, 1fr) auto 40px; gap: 10px; padding: 0 6px; }
+  .trow .c-plays { font-size: 12px; color: var(--dim); }
   .c-album { display: none; }
   .trow { height: 58px; }
   .hero { gap: 18px; padding-bottom: 18px; }
@@ -450,5 +469,6 @@ body.paused .eq i { animation-play-state: paused; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .eq i { animation: none !important; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
