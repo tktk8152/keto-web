@@ -1,5 +1,5 @@
 /*
- * My Player — Spotify Web API + Web Playback SDK を使った個人用プレーヤー
+ * ねいろ — Spotify Web API + Web Playback SDK を使った個人用プレーヤー
  * 認証: Authorization Code with PKCE（サーバー・Client Secret 不要）
  */
 (() => {
@@ -44,6 +44,7 @@
     back: '<path d="m15 18-6-6 6-6"/>',
     copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
     check: '<path d="M20 6 9 17l-5-5"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
   };
   function icon(name, cls = '') {
     const t = document.createElement('template');
@@ -199,7 +200,6 @@
   let syncTimer = null;
 
   const countOf = (uri) => playCounts[uri] || 0;
-  const fmtCount = (n) => (n ? `${n.toLocaleString()}回` : '–');
 
   function hasScope(name) {
     const sc = store.get('sp_scope');
@@ -242,10 +242,6 @@
   }
 
   function refreshCounts() {
-    document.querySelectorAll('.trow').forEach((el) => {
-      const c = el.querySelector('.c-plays');
-      if (c) c.textContent = fmtCount(countOf(el.dataset.uri));
-    });
     const uris = currentUris();
     const n = uris.reduce((m, u) => Math.max(m, countOf(u)), 0);
     $('npPlays').hidden = !uris.length;
@@ -314,7 +310,7 @@
   function initPlayer() {
     window.onSpotifyWebPlaybackSDKReady = () => {
       player = new window.Spotify.Player({
-        name: 'My Player (Web)',
+        name: 'ねいろ (Web)',
         getOAuthToken: (cb) => { getToken().then(cb).catch((e) => toast(e.message)); },
         volume: Number($('volume').value) / 100,
       });
@@ -361,14 +357,15 @@
     setIcon($('playBtn'), playing ? 'pause' : 'play', playing ? '' : 'play-ic');
 
     $('trackName').textContent = track?.name || '再生していません';
-    $('trackArtist').textContent = artistsOf(track) || '—';
+    $('trackArtist').replaceChildren(...artistLinks(track?.artists, '—'));
     $('dur').textContent = fmt(state?.duration);
-    document.title = track ? `${track.name} · ${artistsOf(track)}` : 'My Player';
+    document.title = track ? `${track.name} · ${artistsOf(track)}` : 'ねいろ';
 
     // Now Playing パネル
     $('npTitle').textContent = track?.name || 'まだ何も再生していません';
-    $('npArtist').textContent = track ? artistsOf(track) : '曲を選ぶとここに表示されます';
-    $('npAlbum').textContent = track?.album?.name || '';
+    $('npArtist').replaceChildren(...(track ? artistLinks(track.artists) : ['曲を選ぶとここに表示されます']));
+    const albumId = idFromUri(track?.album?.uri);
+    $('npAlbum').replaceChildren(track?.album?.name ? (albumId ? linkTo(`/album/${albumId}`, track.album.name) : track.album.name) : '');
 
     const art = largestImage(track?.album?.images);
     if (art !== lastArt) {
@@ -504,14 +501,42 @@
     setInterval(updateProgress, 500);
   }
 
-  // ---------------------------------------------------------------- views
+  // ---------------------------------------------------------------- views & routing
+  // 画面は URL の # で管理（再読み込みしても同じ画面に戻る / ブラウザの戻るも使える）
+  //   #/home  #/search?q=…  #/liked  #/playlist/ID  #/album/ID  #/artist/ID
   let renderSeq = 0;
   let lastQuery = '';
   let me = null;
+  let currentTab = 'home';
+  let internalNavs = 0;
+  const cache = { playlist: new Map(), album: new Map() };
+  const TABS = ['home', 'search', 'liked'];
 
-  function show(view, arg) {
-    const tab = view === 'playlist' ? 'home' : view;
-    document.querySelectorAll('[data-view]').forEach((b) => b.classList.toggle('active', b.dataset.view === tab));
+  const idFromUri = (uri) => (uri || '').split(':')[2] || '';
+
+  function navigate(path) {
+    if (location.hash === `#${path}`) return route();
+    internalNavs++;
+    location.hash = path;
+  }
+  function goBack() {
+    if (internalNavs > 0) { internalNavs--; history.back(); } else navigate(`/${currentTab}`);
+  }
+
+  function parseHash() {
+    const raw = location.hash.replace(/^#\/?/, '');
+    const [pathPart, qs = ''] = raw.split('?');
+    const [view, id] = pathPart.split('/');
+    return { view: view || 'home', id: id ? decodeURIComponent(id) : '', params: new URLSearchParams(qs) };
+  }
+
+  function route() {
+    let { view, id, params } = parseHash();
+    const needsId = ['playlist', 'album', 'artist'].includes(view);
+    if (!views[view] || (needsId && !id)) { view = 'home'; history.replaceState(null, '', '#/home'); }
+    if (TABS.includes(view)) currentTab = view;
+    document.querySelectorAll('[data-view]').forEach((b) => b.classList.toggle('active', b.dataset.view === currentTab));
+
     const seq = ++renderSeq;
     const alive = () => seq === renderSeq; // 画面遷移後に古い結果を描画しないため
     const root = $('content');
@@ -519,41 +544,50 @@
     if (needsScope) wrap.append(scopeBanner());
     root.replaceChildren(wrap);
     root.scrollTop = 0;
-    views[view](wrap, alive, arg);
+    views[view](wrap, alive, { id, params });
   }
 
   // ----- 部品 -----
+  /** アーティスト名をそれぞれリンクにする */
+  function artistLinks(artists, fallback = '') {
+    const list = (artists || []).map((a) => ({ name: a.name, id: a.id || idFromUri(a.uri) }));
+    if (!list.length) return [fallback];
+    const out = [];
+    list.forEach((a, i) => {
+      if (i) out.push(', ');
+      out.push(a.id ? linkTo(`/artist/${a.id}`, a.name) : a.name);
+    });
+    return out;
+  }
+  function linkTo(path, text) {
+    return h('a', { class: 'link', href: `#${path}`, onclick: (e) => { e.stopPropagation(); internalNavs++; } }, text);
+  }
+
   function trackList() {
     return h('div', { class: 'tlist', role: 'list' },
       h('div', { class: 'thead' },
         h('span', { class: 'c-idx' }, '#'),
         h('span', {}, 'タイトル'),
         h('span', { class: 'c-album' }, 'アルバム'),
-        h('span', { class: 'c-plays', title: playsTitle() }, '再生回数'),
         h('span', { class: 'c-dur' }, icon('clock'))));
   }
 
-  function playsTitle() {
-    const since = Number(store.get(PC_SINCE) || 0);
-    return `あなたのアカウントでの再生回数${since ? `（${new Date(since).toLocaleDateString('ja-JP')} から記録）` : ''}`;
-  }
-
-  function trackRow(t, i, onPlay) {
-    const img = smallestImage(t.album?.images || t.images);
+  function trackRow(t, i, onPlay, album = t.album) {
+    const img = smallestImage(album?.images || t.images);
     return h('div', {
       class: 'trow',
       role: 'listitem',
       'data-uri': t.uri,
       tabindex: '0',
+      title: `${t.name} を再生`,
       onclick: onPlay,
-      onkeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(); } },
+      onkeydown: (e) => { if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onPlay(); } },
     },
     h('div', { class: 'c-idx' }, h('span', { class: 'n' }, i + 1), icon('play', 'pi'), h('span', { class: 'eq' }, h('i'), h('i'), h('i'))),
     h('div', { class: 'c-title' },
       img ? h('img', { src: img, alt: '', loading: 'lazy' }) : h('span', { class: 'ph' }),
-      h('div', {}, h('div', { class: 't' }, t.name), h('div', { class: 'a' }, artistsOf(t)))),
-    h('div', { class: 'c-album' }, t.album?.name || ''),
-    h('div', { class: 'c-plays' }, fmtCount(countOf(t.uri))),
+      h('div', {}, h('div', { class: 't' }, t.name), h('div', { class: 'a' }, artistLinks(t.artists, t.show?.name || '')))),
+    h('div', { class: 'c-album' }, album?.id ? linkTo(`/album/${album.id}`, album.name) : (album?.name || '')),
     h('div', { class: 'c-dur' }, fmt(t.duration_ms)));
   }
 
@@ -572,8 +606,54 @@
     return 'こんばんは';
   }
 
-  function coverEl(url, cls = 'cover') {
-    return url ? h('img', { class: cls, src: url, alt: '', loading: 'lazy' }) : h('div', { class: cls }, icon('music'));
+  function coverEl(url, cls = 'cover', fallback = 'music') {
+    return url ? h('img', { class: cls, src: url, alt: '', loading: 'lazy' }) : h('div', { class: cls }, icon(fallback));
+  }
+
+  function card({ title, sub, img, path, playUri, round = false, cls = '' }) {
+    return h('div', {
+      class: `card ${cls}`, role: 'link', tabindex: '0', title,
+      onclick: () => navigate(path),
+      onkeydown: (e) => { if (e.target === e.currentTarget && e.key === 'Enter') navigate(path); },
+    },
+    h('div', { class: 'cover-wrap' },
+      coverEl(img, round ? 'cover round' : 'cover', round ? 'user' : 'music'),
+      playUri ? h('button', { class: 'fab', 'aria-label': `${title} を再生`, title: '再生',
+        onclick: (e) => { e.stopPropagation(); safe(play({ context_uri: playUri })); } }, icon('play')) : null),
+    h('div', { class: 'name' }, title),
+    h('div', { class: 'sub' }, sub));
+  }
+
+  function skeletonCards(n) {
+    return Array.from({ length: n }, () => h('div', { class: 'card skeleton' },
+      h('div', { class: 'cover sk' }), h('div', { class: 'line sk', style: 'width:80%' }), h('div', { class: 'line sk', style: 'width:50%' })));
+  }
+
+  function hero({ eyebrow, title, img, imgCls = 'hero-cover', fallback = 'music', meta, onPlay }) {
+    return h('div', { class: 'hero' },
+      img ? h('img', { class: imgCls, src: img, alt: '' }) : h('div', { class: imgCls }, icon(fallback)),
+      h('div', { class: 'hero-info' },
+        h('div', { class: 'eyebrow' }, eyebrow),
+        h('h1', { class: 'page-title' }, title),
+        h('div', { class: 'hero-meta' }, meta),
+        onPlay ? h('div', { class: 'actions' },
+          h('button', { class: 'play-big', 'aria-label': '再生', title: '再生', onclick: onPlay }, icon('play'))) : null));
+  }
+  const backBtn = () => h('button', { class: 'back', onclick: goBack }, icon('back'), '戻る');
+
+  /** next をたどって items を集める */
+  async function collect(first, maxPages = 10) {
+    const items = [];
+    let next = first;
+    let pages = 0;
+    let firstPage = null;
+    while (next && pages++ < maxPages) {
+      const r = await api(next);
+      firstPage ??= r;
+      items.push(...(r?.items || []));
+      next = r?.next;
+    }
+    return { items, firstPage };
   }
 
   const views = {
@@ -587,14 +667,9 @@
       );
       const grid = h('div', { class: 'grid' });
       root.append(grid);
-
-      grid.append(h('button', { class: 'card liked-card', onclick: () => show('liked') },
-        h('div', { class: 'cover-wrap' }, h('div', { class: 'cover' }, icon('heart'))),
-        h('div', { class: 'name' }, 'お気に入りの曲'),
-        h('div', { class: 'sub' }, 'Liked Songs')));
-
-      const skeletons = Array.from({ length: 5 }, () => h('div', { class: 'card skeleton' },
-        h('div', { class: 'cover sk' }), h('div', { class: 'line sk', style: 'width:80%' }), h('div', { class: 'line sk', style: 'width:50%' })));
+      grid.append(card({ title: 'お気に入りの曲', sub: 'Liked Songs', path: '/liked', cls: 'liked-card' }));
+      grid.lastChild.querySelector('.cover').replaceChildren(icon('heart'));
+      const skeletons = skeletonCards(5);
       grid.append(...skeletons);
 
       try {
@@ -607,17 +682,15 @@
           if (pages === 1) skeletons.forEach((s) => s.remove());
           for (const p of (r?.items || []).filter(Boolean)) {
             count++;
+            cache.playlist.set(p.id, p);
             const total = p.items?.total ?? p.tracks?.total;
-            const card = h('div', { class: 'card', role: 'button', tabindex: '0',
-              onclick: () => show('playlist', p),
-              onkeydown: (e) => { if (e.key === 'Enter') show('playlist', p); } },
-            h('div', { class: 'cover-wrap' },
-              coverEl(p.images?.[0]?.url),
-              h('button', { class: 'fab', 'aria-label': `${p.name} を再生`,
-                onclick: (e) => { e.stopPropagation(); safe(play({ context_uri: p.uri })); } }, icon('play'))),
-            h('div', { class: 'name' }, p.name),
-            h('div', { class: 'sub' }, [p.owner?.display_name, total != null ? `${total} 曲` : null].filter(Boolean).join(' · ')));
-            grid.append(card);
+            grid.append(card({
+              title: p.name,
+              sub: [p.owner?.display_name, total != null ? `${total} 曲` : null].filter(Boolean).join(' · '),
+              img: p.images?.[0]?.url,
+              path: `/playlist/${p.id}`,
+              playUri: p.uri,
+            }));
           }
           next = r?.next;
         }
@@ -629,7 +702,8 @@
     },
 
     // ---------- 検索 ----------
-    search(root, alive) {
+    search(root, alive, { params }) {
+      if (params.has('q')) lastQuery = params.get('q');
       const input = h('input', { type: 'search', placeholder: '曲名・アーティスト名', value: lastQuery, 'aria-label': '検索', enterkeyhint: 'search' });
       const results = h('div');
       let debounce;
@@ -639,20 +713,33 @@
       async function run() {
         const q = input.value.trim();
         lastQuery = q;
+        history.replaceState(null, '', q ? `#/search?q=${encodeURIComponent(q)}` : '#/search');
         if (!q) return results.replaceChildren(emptyState());
         results.replaceChildren(loadingRow('検索中…'));
         try {
           // 開発モードのアプリは limit の上限が 10
-          const r = await api(`/search?${new URLSearchParams({ q, type: 'track', limit: '10' })}`);
+          const r = await api(`/search?${new URLSearchParams({ q, type: 'track,artist', limit: '10' })}`);
           if (!alive() || q !== lastQuery) return;
           const tracks = (r?.tracks?.items || []).filter(Boolean);
-          if (!tracks.length) {
+          const artists = (r?.artists?.items || []).filter(Boolean).slice(0, 5);
+          if (!tracks.length && !artists.length) {
             return results.replaceChildren(h('div', { class: 'empty' }, icon('search'), h('b', {}, '見つかりませんでした'), h('span', {}, '別のキーワードで試してみてください')));
           }
-          const uris = tracks.map((t) => t.uri);
-          const list = trackList();
-          tracks.forEach((t, i) => list.append(trackRow(t, i, () => playUris(uris, i))));
-          results.replaceChildren(h('h2', { class: 'section-title', style: 'margin-top:30px' }, '曲'), list);
+          const out = [];
+          if (artists.length) {
+            out.push(h('h2', { class: 'section-title', style: 'margin-top:30px' }, 'アーティスト'),
+              h('div', { class: 'grid' }, artists.map((a) => card({
+                title: a.name, sub: 'アーティスト', img: a.images?.[1]?.url || a.images?.[0]?.url,
+                path: `/artist/${a.id}`, playUri: a.uri, round: true,
+              }))));
+          }
+          if (tracks.length) {
+            const uris = tracks.map((t) => t.uri);
+            const list = trackList();
+            tracks.forEach((t, i) => list.append(trackRow(t, i, () => playUris(uris, i))));
+            out.push(h('h2', { class: 'section-title', style: 'margin-top:30px' }, '曲'), list);
+          }
+          results.replaceChildren(...out);
           highlightPlaying();
         } catch (e) {
           if (alive()) results.replaceChildren(h('div', { class: 'note' }, `エラー: ${e.message}`));
@@ -671,20 +758,25 @@
     },
 
     // ---------- プレイリスト詳細 ----------
-    async playlist(root, alive, p) {
+    async playlist(root, alive, { id }) {
+      root.append(backBtn());
+      let p = cache.playlist.get(id);
+      if (!p) {
+        const holder = loadingRow();
+        root.append(holder);
+        try { p = await api(`/playlists/${encodeURIComponent(id)}`); } catch (e) {
+          if (alive()) holder.replaceWith(h('div', { class: 'note' }, `プレイリストを開けませんでした: ${e.message}`));
+          return;
+        }
+        if (!alive()) return;
+        holder.remove();
+      }
       const total = p.items?.total ?? p.tracks?.total;
-      const img = largestImage(p.images);
-      root.append(
-        h('button', { class: 'back', onclick: () => show('home') }, icon('back'), 'ライブラリ'),
-        h('div', { class: 'hero' },
-          coverEl(img, 'hero-cover'),
-          h('div', { class: 'hero-info' },
-            h('div', { class: 'eyebrow' }, 'Playlist'),
-            h('h1', { class: 'page-title' }, p.name),
-            h('div', { class: 'hero-meta' }, h('b', {}, p.owner?.display_name || ''), total != null ? ` · ${total} 曲` : ''),
-            h('div', { class: 'actions' },
-              h('button', { class: 'play-big', 'aria-label': '再生', onclick: () => safe(play({ context_uri: p.uri })) }, icon('play'))))),
-      );
+      root.append(hero({
+        eyebrow: 'Playlist', title: p.name, img: largestImage(p.images),
+        meta: [h('b', {}, p.owner?.display_name || ''), total != null ? ` · ${total} 曲` : ''],
+        onPlay: () => safe(play({ context_uri: p.uri })),
+      }));
       const holder = h('div', {}, loadingRow());
       root.append(holder);
 
@@ -692,14 +784,7 @@
       let entries = null;
       for (const ep of ['items', 'tracks']) {
         try {
-          entries = [];
-          let next = `/playlists/${p.id}/${ep}?limit=100`;
-          let pages = 0;
-          while (next && pages++ < 10) {
-            const r = await api(next);
-            entries.push(...(r?.items || []));
-            next = r?.next;
-          }
+          entries = (await collect(`/playlists/${p.id}/${ep}?limit=100`)).items;
           break;
         } catch {
           entries = null;
@@ -719,17 +804,111 @@
       highlightPlaying();
     },
 
+    // ---------- アルバム ----------
+    async album(root, alive, { id }) {
+      root.append(backBtn());
+      const holder = h('div', {}, loadingRow());
+      root.append(holder);
+      let a = cache.album.get(id);
+      try {
+        a ??= await api(`/albums/${encodeURIComponent(id)}`);
+      } catch (e) {
+        if (alive()) holder.replaceChildren(h('div', { class: 'note' }, `アルバムを開けませんでした: ${e.message}`));
+        return;
+      }
+      if (!alive()) return;
+      cache.album.set(id, a);
+      const year = (a.release_date || '').slice(0, 4);
+      const total = a.total_tracks ?? a.tracks?.total;
+      holder.before(hero({
+        eyebrow: a.album_type === 'single' ? 'Single' : a.album_type === 'compilation' ? 'Compilation' : 'Album',
+        title: a.name, img: largestImage(a.images),
+        meta: [h('b', {}, artistLinks(a.artists)), year ? ` · ${year}` : '', total != null ? ` · ${total} 曲` : ''],
+        onPlay: () => safe(play({ context_uri: a.uri })),
+      }));
+      let items = a.tracks?.items || [];
+      if (a.tracks?.next) {
+        try { items = items.concat((await collect(a.tracks.next, 5)).items); } catch { /* 先頭分だけ表示 */ }
+        if (!alive()) return;
+      }
+      const albumInfo = { id: a.id, name: a.name, images: a.images };
+      const tracks = items.filter((t) => t && t.uri);
+      if (!tracks.length) return holder.replaceChildren(h('div', { class: 'empty' }, icon('music'), h('b', {}, '曲がありません')));
+      const list = trackList();
+      tracks.forEach((t, i) => list.append(trackRow(t, i, () => safe(play({ context_uri: a.uri, offset: { uri: t.uri } })), albumInfo)));
+      holder.replaceChildren(list);
+      highlightPlaying();
+    },
+
+    // ---------- アーティスト ----------
+    async artist(root, alive, { id }) {
+      root.append(backBtn());
+      const holder = loadingRow();
+      root.append(holder);
+      let ar;
+      try {
+        ar = await api(`/artists/${encodeURIComponent(id)}`);
+      } catch (e) {
+        if (alive()) holder.replaceWith(h('div', { class: 'note' }, `アーティストを開けませんでした: ${e.message}`));
+        return;
+      }
+      if (!alive()) return;
+      holder.replaceWith(hero({
+        eyebrow: 'Artist', title: ar.name, img: largestImage(ar.images), imgCls: 'hero-cover round', fallback: 'user',
+        meta: (ar.genres || []).slice(0, 3).join(' · '),
+        onPlay: () => safe(play({ context_uri: ar.uri })),
+      }));
+
+      // 人気の曲（top-tracks API は 2026年2月に廃止されたため検索で代用）
+      const songs = h('div', {}, loadingRow());
+      const albums = h('div', { class: 'grid' }, skeletonCards(5));
+      root.append(h('h2', { class: 'section-title' }, '曲'), songs, h('h2', { class: 'section-title' }, 'アルバム・シングル'), albums);
+
+      (async () => {
+        try {
+          const r = await api(`/search?${new URLSearchParams({ q: `artist:"${ar.name}"`, type: 'track', limit: '10' })}`);
+          if (!alive()) return;
+          const tracks = (r?.tracks?.items || []).filter((t) => t?.artists?.some((x) => x.id === ar.id));
+          if (!tracks.length) return songs.replaceChildren(h('div', { class: 'loading-row' }, '曲が見つかりませんでした'));
+          const uris = tracks.map((t) => t.uri);
+          const list = trackList();
+          tracks.forEach((t, i) => list.append(trackRow(t, i, () => playUris(uris, i))));
+          songs.replaceChildren(list);
+          highlightPlaying();
+        } catch (e) {
+          if (alive()) songs.replaceChildren(h('div', { class: 'note' }, `曲を読み込めませんでした: ${e.message}`));
+        }
+      })();
+
+      (async () => {
+        try {
+          const { items } = await collect(`/artists/${ar.id}/albums?${new URLSearchParams({ include_groups: 'album,single', limit: '10' })}`, 3);
+          if (!alive()) return;
+          const seen = new Set();
+          const list = items.filter((al) => al && !seen.has(al.name.toLowerCase()) && seen.add(al.name.toLowerCase()));
+          if (!list.length) return albums.replaceWith(h('div', { class: 'loading-row' }, 'アルバムが見つかりませんでした'));
+          albums.replaceChildren(...list.map((al) => card({
+            title: al.name,
+            sub: [(al.release_date || '').slice(0, 4), al.album_type === 'single' ? 'シングル' : 'アルバム'].filter(Boolean).join(' · '),
+            img: al.images?.[0]?.url, path: `/album/${al.id}`, playUri: al.uri,
+          })));
+        } catch (e) {
+          if (alive()) albums.replaceWith(h('div', { class: 'note' }, `アルバムを読み込めませんでした: ${e.message}`));
+        }
+      })();
+    },
+
     // ---------- お気に入りの曲 ----------
     async liked(root, alive) {
-      const meta = h('div', { class: 'hero-meta' }, h('b', {}, me?.display_name || ''));
-      const playAll = h('button', { class: 'play-big', 'aria-label': 'すべて再生', disabled: true }, icon('play'));
+      const meta = h('span', {}, h('b', {}, me?.display_name || ''));
+      const playAll = h('button', { class: 'play-big', 'aria-label': 'すべて再生', title: 'すべて再生', disabled: true }, icon('play'));
       root.append(
         h('div', { class: 'hero' },
           h('div', { class: 'hero-cover liked' }, icon('heart')),
           h('div', { class: 'hero-info' },
             h('div', { class: 'eyebrow' }, 'Playlist'),
             h('h1', { class: 'page-title' }, 'お気に入りの曲'),
-            meta,
+            h('div', { class: 'hero-meta' }, meta),
             h('div', { class: 'actions' }, playAll))),
       );
       const list = trackList();
@@ -752,7 +931,7 @@
           tracks.push(...added);
           const uris = tracks.map((t) => t.uri);
           added.forEach((t, j) => list.append(trackRow(t, base + j, () => playUris(uris, base + j))));
-          if (r?.total != null) meta.append(` · ${r.total} 曲`);
+          if (base === 0 && r?.total != null) meta.append(` · ${r.total} 曲`);
           next = r?.next;
           moreWrap.hidden = !next;
           playAll.disabled = !tracks.length;
@@ -811,7 +990,7 @@
       location.reload();
     });
     document.querySelectorAll('[data-view]').forEach((b) => {
-      b.addEventListener('click', () => show(b.dataset.view));
+      b.addEventListener('click', () => navigate(`/${b.dataset.view}`));
     });
   }
 
@@ -849,7 +1028,8 @@
     showScreen('app');
     bindPlayerControls();
     initPlayer();
-    show('home');
+    window.addEventListener('hashchange', route);
+    route();
     safe(syncPlayCounts());
     setInterval(() => safe(syncPlayCounts()), 3 * 60_000);
   }
