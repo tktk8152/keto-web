@@ -2,93 +2,168 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#08090c">
   <title>My Player</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="config.js"></script>
   <script src="app.js" defer></script>
 </head>
 <body>
 
-  <!-- 初回設定: Client ID 入力 -->
+  <!-- ロゴ（レコード盤） -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#d4ff6a"/>
+        <stop offset="1" stop-color="#4be3c4"/>
+      </linearGradient>
+    </defs>
+    <symbol id="logo" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="22.5" fill="#0d0f13" stroke="url(#logoGrad)" stroke-width="1.5"/>
+      <circle cx="24" cy="24" r="17.5" fill="none" stroke="rgba(255,255,255,.09)"/>
+      <circle cx="24" cy="24" r="13.5" fill="none" stroke="rgba(255,255,255,.09)"/>
+      <path d="M24 4.5a19.5 19.5 0 0 1 17.6 11.1" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="24" cy="24" r="8" fill="url(#logoGrad)"/>
+      <circle cx="24" cy="24" r="1.8" fill="#0d0f13"/>
+    </symbol>
+  </svg>
+
+  <!-- ===================== 認証まわりの画面 ===================== -->
+  <div class="auth-bg" aria-hidden="true"><span></span><span></span><span></span></div>
+
   <section id="setup" class="screen" hidden>
-    <div class="card">
-      <h1>My Player</h1>
-      <p>Spotify Developer Dashboard で作成したアプリの <b>Client ID</b> を入力してください。</p>
-      <ol class="steps">
-        <li><a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener">developer.spotify.com/dashboard</a> で「Create app」</li>
-        <li>「Which API/SDKs are you planning to use?」で <b>Web API</b> と <b>Web Playback SDK</b> にチェック</li>
-        <li>Redirect URI に次の値を登録:<br><code id="redirectUri"></code></li>
-      </ol>
-      <form id="setupForm">
-        <input id="clientIdInput" placeholder="Client ID" autocomplete="off" required>
-        <button type="submit" class="primary">保存</button>
-      </form>
-    </div>
-  </section>
+    <div class="auth">
+      <svg class="auth-logo"><use href="#logo"/></svg>
+      <h1 class="wordmark">My Player</h1>
+      <p class="tagline">自分だけの Spotify プレーヤー</p>
 
-  <!-- ログイン -->
-  <section id="login" class="screen" hidden>
-    <div class="card">
-      <h1>My Player</h1>
-      <p>Spotify アカウントでログインすると、このページ自体が再生デバイスになります。</p>
-      <p class="muted small">※ ブラウザでの再生には Spotify Premium が必要です。</p>
-      <button id="loginBtn" class="primary big">Spotify でログイン</button>
-      <button id="resetClientBtn" class="link">Client ID を変更</button>
-    </div>
-  </section>
-
-  <!-- メイン -->
-  <div id="app" hidden>
-    <header class="topbar">
-      <div class="brand"><span class="dot"></span>My Player</div>
-      <div class="user">
-        <span id="userName"></span>
-        <button id="logoutBtn" class="ghost">ログアウト</button>
+      <div class="glass panel">
+        <h2>はじめの設定</h2>
+        <ol class="steps">
+          <li>
+            <span class="num">1</span>
+            <div>
+              <b>Spotify でアプリを作成</b>
+              <p><a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener">Developer Dashboard</a> を開いて「Create app」</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <div>
+              <b>使う API を選択</b>
+              <p><span class="chip">Web API</span> と <span class="chip">Web Playback SDK</span> にチェック</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <div>
+              <b>Redirect URI を登録</b>
+              <div class="copyline">
+                <code id="redirectUri"></code>
+                <button type="button" id="copyBtn" class="mini-btn" data-icon="copy">コピー</button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="num">4</span>
+            <div class="grow">
+              <b>Client ID を入力</b>
+              <form id="setupForm" class="inline-form">
+                <input id="clientIdInput" placeholder="例: 1a2b3c4d5e6f..." autocomplete="off" spellcheck="false" required>
+                <button type="submit" class="btn-accent">保存</button>
+              </form>
+            </div>
+          </li>
+        </ol>
       </div>
-    </header>
+    </div>
+  </section>
 
-    <nav class="tabs">
-      <button data-view="search">検索</button>
-      <button data-view="playlists">プレイリスト</button>
-      <button data-view="liked">お気に入りの曲</button>
-    </nav>
+  <section id="login" class="screen" hidden>
+    <div class="auth">
+      <svg class="auth-logo spin"><use href="#logo"/></svg>
+      <h1 class="wordmark">My Player</h1>
+      <p class="tagline">ブラウザがそのままスピーカーに。</p>
+      <button id="loginBtn" class="btn-accent big" data-icon="play">Spotify でログイン</button>
+      <p class="fineprint">再生には Spotify Premium が必要です</p>
+      <button id="resetClientBtn" class="text-btn">Client ID を変更</button>
+    </div>
+  </section>
+
+  <!-- ===================== メイン ===================== -->
+  <div id="app" hidden>
+    <div class="ambient" aria-hidden="true"><div id="ambient"></div></div>
+
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="brand-logo"><use href="#logo"/></svg>
+        <span>My Player</span>
+      </div>
+      <nav class="nav">
+        <button data-view="home" data-icon="home">ホーム</button>
+        <button data-view="search" data-icon="search">検索</button>
+        <button data-view="liked" data-icon="heart">お気に入り</button>
+      </nav>
+      <div class="me">
+        <span class="avatar" id="avatar"></span>
+        <span class="me-name" id="userName"></span>
+        <button id="logoutBtn" class="icon-btn" data-icon="logout" title="ログアウト" aria-label="ログアウト"></button>
+      </div>
+    </aside>
 
     <main id="content"></main>
+
+    <aside class="np" aria-label="再生中の曲">
+      <div class="np-label">Now Playing</div>
+      <div class="np-art" id="npArtWrap"><img id="npArt" alt="" hidden></div>
+      <div class="np-title" id="npTitle">まだ何も再生していません</div>
+      <div class="np-artist" id="npArtist">曲を選ぶとここに表示されます</div>
+      <div class="np-album" id="npAlbum"></div>
+    </aside>
 
     <footer class="player">
       <div class="now">
         <div class="art"><img id="art" alt="" hidden></div>
         <div class="meta">
           <div id="trackName" class="t">再生していません</div>
-          <div id="trackArtist" class="a"></div>
+          <div id="trackArtist" class="a">—</div>
         </div>
       </div>
+
       <div class="center">
         <div class="controls">
-          <button id="prevBtn" class="icon" aria-label="前の曲">
-            <svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>
-          </button>
-          <button id="playBtn" class="icon play" aria-label="再生 / 一時停止"></button>
-          <button id="nextBtn" class="icon" aria-label="次の曲">
-            <svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>
-          </button>
+          <button id="shuffleBtn" class="ctl toggle" data-icon="shuffle" aria-label="シャッフル" title="シャッフル"></button>
+          <button id="prevBtn" class="ctl" data-icon="prev" aria-label="前の曲"></button>
+          <button id="playBtn" class="ctl play" aria-label="再生 / 一時停止"></button>
+          <button id="nextBtn" class="ctl" data-icon="next" aria-label="次の曲"></button>
+          <button id="repeatBtn" class="ctl toggle" data-icon="repeat" aria-label="リピート" title="リピート"></button>
         </div>
         <div class="progress">
           <span id="pos">0:00</span>
-          <input type="range" id="seek" min="0" max="1000" value="0" aria-label="再生位置">
+          <input type="range" id="seek" class="range" min="0" max="1000" value="0" aria-label="再生位置">
           <span id="dur">0:00</span>
         </div>
       </div>
+
       <div class="right">
-        <span id="deviceStatus" class="status">接続中…</span>
-        <label class="vol">
-          <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zM16 8.5a4.5 4.5 0 0 1 0 7v-7z"/></svg>
-          <input type="range" id="volume" min="0" max="100" value="50" aria-label="音量">
-        </label>
+        <span id="deviceStatus" class="status"><i></i><span>接続中</span></span>
+        <div class="vol">
+          <button id="muteBtn" class="ctl small" aria-label="ミュート"></button>
+          <input type="range" id="volume" class="range" min="0" max="100" value="50" aria-label="音量">
+        </div>
       </div>
     </footer>
+
+    <nav class="tabbar">
+      <button data-view="home" data-icon="home">ホーム</button>
+      <button data-view="search" data-icon="search">検索</button>
+      <button data-view="liked" data-icon="heart">お気に入り</button>
+    </nav>
   </div>
 
   <div id="toast" class="toast" role="status" hidden></div>
